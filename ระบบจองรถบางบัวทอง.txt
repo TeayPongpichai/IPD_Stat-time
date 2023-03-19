@@ -1,0 +1,7 @@
+//Query > Today 
+=QUERY(RawData,"select * where A > date '"&TEXT(TODAY(),"yyyy-mm-dd")&"'Order By A asc",1)
+
+//Query = Yesterday
+=QUERY(RawData,"select * where A > date '"&TEXT((TODAY()-1),"yyyy-mm-dd")&"'and A < date '"&TEXT(TODAY(),"yyyy-mm-dd")&"'Order By A asc",1)
+
+https://docs.google.com/spreadsheets/d/1URSehpQkAzNVAmrSRqNEAIRKQIxYOW8ExRWoLJ7B6mM/edit#gid=986081517
