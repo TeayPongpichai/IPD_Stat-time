@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1oq3yQ-6e-lFbctcZKz1LTtbblec-Re4L
 """
 
-!pip install openpyxl==3.0.0
+!pip install openpyxl==3.0.10
 import pandas as pd
 import numpy as np
 !pip install parinya
