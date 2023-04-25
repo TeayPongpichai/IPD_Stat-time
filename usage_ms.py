@@ -22,20 +22,28 @@ df = df[['Material','Total Qty( 3 months )']]
 df = df.groupby('Material',as_index=False).sum()
 df['AvgUsageRate'] = df['Total Qty( 3 months )']*-1/90
 df = df[['Material','AvgUsageRate']]
-df['max_day'] = 0
-df['max_month'] = 0
 #Process File Stock
 Master = pd.read_excel('Raw data stock.XLSX')
 Master = Master.drop_duplicates(subset=['Material'])
 Master.reset_index(drop=True, inplace=True)
 #Merge Master to df
-df = df.merge(Master,on='Material',how='left')
-df = df[df['Ext. Material Group']==1]
+df = df.merge(Master,on='Material',how='right')
+#Select All Material Medical Supply
+# df = df[df['Ext. Material Group']==1]
 df = df[df['Plant-sp.matl status']!='ZZ']
-df = df[df['AvgUsageRate']>0]
+df['max_day'] = 0
+df['max_month'] = 0
+# df = df[df['AvgUsageRate']>=0]
+df['AvgUsageRate'] = df['AvgUsageRate'].fillna(0)
+#Add Column Check No Plan
+df['Check'] = np.where(df['AvgUsageRate']== 0, 'No Plan', '')
+#Find & Replace Value
+df['AvgUsageRate'] = df['AvgUsageRate'].replace(0, 0.01)
 df['AvgUsageRate']=df['AvgUsageRate'].apply(lambda x:round(x,2)) #Round 2 Digits
 #Final Column
-df = df[['Material','AvgUsageRate','max_day','max_month']]
+df = df[['Material','AvgUsageRate','max_day','max_month','Check']]
+#Replace Header Name
+df.rename(columns = {'Check': ''}, inplace = True)    
 # Export to Excel with Date Execute
 # TodaysDate = time.strftime("%d-%m-%Y")
 TodaysDate = time.strftime("%Y%m%d")
