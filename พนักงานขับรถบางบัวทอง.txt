@@ -1,0 +1,5 @@
+//Query > Today 
+=QUERY(Rawdata,"select * where A > date '"&TEXT(TODAY(),"yyyy-mm-dd")&"'Order By A ASC",0)
+//Query = Yesterday
+=QUERY(Rawdata,"select * where A > date '"&TEXT(TODAY()-1,"yyyy-mm-dd")&"'and A < date '"&TEXT(TODAY(),"yyyy-mm-dd")&"'Order By A ASC",0)
+
